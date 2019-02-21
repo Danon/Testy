@@ -1,6 +1,8 @@
 <html lang="en">
 <head>
+    <title>Porównanie testów jednostkowych i integracyjnych</title>
     <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -17,7 +19,7 @@
         </tr>
         <tr>
             <td>Szansa na wykrycie case'a biznesowego</td>
-            <td class="bad">Mała</td>
+            <td class="bad empty">Mała</td>
             <td>
                 Średnia
                 <p>Bo testy starają się odwzorować biznesowe zachowania.</p>
@@ -78,8 +80,8 @@
         </tr>
         <tr>
             <td>Przeszkadzają w <b>zmianie</b> interfejsu</td>
-            <td>Bardzo</td>
-            <td>Bardzo</td>
+            <td class="empty">Bardzo</td>
+            <td class="empty">Bardzo</td>
         </tr>
         <tr>
             <td>Przeszkadzają w <b>dodawaniu</b> funkcjonalności</td>
@@ -90,10 +92,7 @@
             <td class="bad">
                 Średnio / dużo
                 <ul>
-                    <li>
-                        Żeby integracyjnie przetestować nową funkcjolaność, trzeba napisać duży test z dużą ilością
-                        mocków.
-                    </li>
+                    <li>Trzeba napisać duży test z dużą ilością mocków.</li>
                     <li>Prawdopodobnie copy-paste z innego testu.</li>
                 </ul>
             </td>
@@ -156,7 +155,7 @@
         </tr>
         <tr>
             <td>Poziom skomplikownia: @Test</td>
-            <td class="good">
+            <td class="good empty">
                 Testy są krótkie (najczęściej 3-6 linijek).
             </td>
             <td class="bad">
@@ -174,7 +173,7 @@
         </tr>
         <tr>
             <td>Poziom skomplikownia: @Before</td>
-            <td class="good">
+            <td class="good empty">
                 Mały setUp() / w ogóle nie ma
             </td>
             <td class="bad">
@@ -223,6 +222,14 @@
     </table>
 </section>
 
+<script>
+    $(function () {
+        $("td").click(function () {
+            $(this).children("ul, p").toggle("visible").toggleClass("visible", true);
+        });
+    });
+</script>
+
 <style>
     body {
         font-family: sans-serif;
@@ -245,6 +252,10 @@
         vertical-align: top;
     }
 
+    table tr td:not(:first-child) {
+        cursor: pointer;
+    }
+
     table tr td:first-child {
         white-space: nowrap;
     }
@@ -255,9 +266,19 @@
         padding: 10px 15px;
     }
 
-    table tr td.bad,
-    table tr td.good {
+    table tr td p,
+    table tr td ul {
+        visibility: hidden;
+        display: none;
+    }
 
+    table tr td p.visible,
+    table tr td ul.visible {
+        visibility: visible;
+    }
+
+    table tr td.empty {
+        cursor: default;
     }
 
     table tr td.good {
