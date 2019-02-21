@@ -1,0 +1,276 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<h1>Porównanie testów jednostkowych i integracyjnych</h1>
+
+<section>
+    <h2>Jakoś kodu</h2>
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Unit</th>
+            <th>Integration</th>
+        </tr>
+        <tr>
+            <td>Szansa na wykrycie case'a biznesowego</td>
+            <td class="bad">Mała</td>
+            <td>
+                Średnia
+                <p>Bo testy starają się odwzorować biznesowe zachowania.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Ujawniają błędną komunikację/kontrakty</td>
+            <td class="bad">
+                Nie
+                <p>
+                    Bo test wie tylko o jednej klasie, przez co współpraca z innymi klasami nie jest sprawdzana.
+                </p>
+            </td>
+            <td class="good">
+                Tak
+                <p>
+                    Bo razem z klasami, niejawnie testowane jest powiązanie między klasami.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>Zwracają uwagę programisty na słaby design</td>
+            <td class="good">
+                Tak
+                <p>Bo przy testowaniu jednej klasy widać czy jest źle zaprojektowana.</p>
+            </td>
+            <td class="bad">
+                Nie
+                <ul>
+                    <li>Słaby design nie rzuca się w oczy.</li>
+                    <li>Słaby design jest ukryty pod piramidą zależności,</li>
+                    <li>Test integracyjny pozwoli na dopisanie klasy o słabej jakości (SOLID, DRY, KISS).</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2>Rozwój oprogramowania</h2>
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Unit</th>
+            <th>Integration</th>
+        </tr>
+        <tr>
+            <td>Przeszkadzają w <b>zmianie</b> implementacji</td>
+            <td class="very-bad">
+                Na prawdę Bardzo
+                <p>Bo klasy i testy są ciasto przywiązanie. Zmiana klasy <b>wymaga</b> zmiany w testach.</p>
+            </td>
+            <td class="good">
+                W ogóle
+                <p>Bo test wie mało o implementacji. Tylko input/output musi się zgadzać.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Przeszkadzają w <b>zmianie</b> interfejsu</td>
+            <td>Bardzo</td>
+            <td>Bardzo</td>
+        </tr>
+        <tr>
+            <td>Przeszkadzają w <b>dodawaniu</b> funkcjonalności</td>
+            <td class="good">
+                Mało
+                <p>Wystarczy stworzyć nową klasę i jej unit test (zasada Open/Close).</p>
+            </td>
+            <td class="bad">
+                Średnio / dużo
+                <ul>
+                    <li>
+                        Żeby integracyjnie przetestować nową funkcjolaność, trzeba napisać duży test z dużą ilością
+                        mocków.
+                    </li>
+                    <li>Prawdopodobnie copy-paste z innego testu.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Przeszkadzają w <b>zmianie</b> funkcjonalności</td>
+            <td class="bad">
+                Bardzo
+                <p>Wymaga zmian w wielu klasach - czyli w wielu testach.</p>
+            </td>
+            <td class="bad">
+                Bardzo
+                <p>Wymaga zmian w wielu klasach - w jednym teście, ale w wielu mockach.</p>
+            </td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2>Nakład pracy - tworzenia nowych testów</h2>
+    <table>
+        <tr>
+            <th></th>
+            <th>Unit</th>
+            <th>Integration</th>
+        </tr>
+        <tr>
+            <td>Testowanie <b>wielu</b> klas z <b>małą</b> ilością odpowiedzialności</td>
+            <td class="bad">
+                Duży
+                <p>Trzeba robić wiele testów o niskiej wartości.</p>
+            </td>
+            <td class="good">
+                Mały
+                <p>Można szybko zrobić jeden God-Test i zamockować wszystko na raz.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Testowanie <b>małej</b> ilości klas z <b>dużą</b> ilością odpowiedzialności</td>
+            <td class="good">
+                Mały
+                <p>Trzeba robić więcej testów, ale za to o dużej wartości bo testują dużo logiki.</p>
+            </td>
+            <td class="bad">
+                Duży
+                <p>Bo mockowania jest <b>o wiele więcej</b> niż faktycznego testowania.</p>
+            </td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2>Nakład pracy - edycja testów</h2>
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Unit</th>
+            <th>Integration</th>
+        </tr>
+        <tr>
+            <td>Poziom skomplikownia: @Test</td>
+            <td class="good">
+                Testy są krótkie (najczęściej 3-6 linijek).
+            </td>
+            <td class="bad">
+                Testy są długie (często 10-40 linijek)
+                <ul>
+                    <li>
+                        Wymagają dużo mockowania, żeby odłączyć się od niektórych zależności (najczęściej powielane w
+                        połowie innych testów).
+                    </li>
+                    <li>
+                        Dużo copy-paste'a.
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Poziom skomplikownia: @Before</td>
+            <td class="good">
+                Mały setUp() / w ogóle nie ma
+            </td>
+            <td class="bad">
+                Duży setUp()
+                <p>Potecjalne powiązanie między testami (mogą wpływać na siebie, tworzyć ukryte powiązania).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Wydajność testów</td>
+            <td class="good">
+                Duża
+                <p>
+                    Testy testują 90-100% odpowiedzialności, a zależności do mockowania jest
+                    bardzo mało.
+                </p>
+            </td>
+            <td class="bad">
+                Bardzo Mała
+                <p>Testy testują 10-20% odpowiedzialności, ale muszą mockować 80-90% zależności.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Szum</td>
+            <td class="good">
+                Mało
+                <p>Mało odpowiedzialności do testowania - od razu widać co jest testowane.</p>
+            </td>
+            <td class="bad">
+                Bardzo dużo
+                <p>
+                    Ciężko rozróżnić przygotowanie do testu, od tego co jest właściwie testowane.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>Niechciany wpływ jednych testów na drugie</td>
+            <td class="good">
+                Żaden
+                <p>Jedna testowana klasa</p>
+            </td>
+            <td class="bad">
+                Możliwe że żaden / mały / średni
+                <p>Dużo klas testowanych razem - ryzyko wpływu jednych testów na drugie.</p>
+            </td>
+        </tr>
+    </table>
+</section>
+
+<style>
+    body {
+        font-family: sans-serif;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table tr:first-child th:first-child {
+        border-left: none;
+        border-top: none;
+    }
+
+    table tr td:first-child {
+        text-align: right;
+    }
+
+    table tr td {
+        vertical-align: top;
+    }
+
+    table tr td:first-child {
+        white-space: nowrap;
+    }
+
+    table tr th,
+    table tr td {
+        border: 1px solid black;
+        padding: 10px 15px;
+    }
+
+    table tr td.bad,
+    table tr td.good {
+
+    }
+
+    table tr td.good {
+        background-color: #dbffdb;;
+    }
+
+    table tr td.bad {
+        background-color: #ffd1d1;
+    }
+
+    table tr td.very-bad {
+        background-color: #e85d5d;;
+    }
+</style>
+</body>
+</html>
