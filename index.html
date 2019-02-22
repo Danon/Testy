@@ -70,8 +70,12 @@
         <tr>
             <td>Przeszkadzają w <b>zmianie</b> implementacji</td>
             <td class="very-bad">
-                Na prawdę Bardzo
-                <p>Bo klasy i testy są ciasto przywiązanie. Zmiana klasy <b>wymaga</b> zmiany w testach.</p>
+                Średnio / Na prawdę Bardzo
+                <ul>
+                    <li>Bo klasy i testy są ciasto przywiązanie. Zmiana klasy <b>wymaga</b> zmiany w testach.</li>
+                    <li>Średnio - gdy testowana logika jest tylko w jednej ścieżce</li>
+                    <li>Bardzo duzo - gdy testowana logika jest wielu ścieżkach</li>
+                </ul>
             </td>
             <td class="good">
                 W ogóle
@@ -84,20 +88,6 @@
             <td class="empty">Bardzo</td>
         </tr>
         <tr>
-            <td>Przeszkadzają w <b>dodawaniu</b> funkcjonalności</td>
-            <td class="good">
-                Mało
-                <p>Wystarczy stworzyć nową klasę i jej unit test (zasada Open/Close).</p>
-            </td>
-            <td class="bad">
-                Średnio / dużo
-                <ul>
-                    <li>Trzeba napisać duży test z dużą ilością mocków.</li>
-                    <li>Prawdopodobnie copy-paste z innego testu.</li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
             <td>Przeszkadzają w <b>zmianie</b> funkcjonalności</td>
             <td class="bad">
                 Bardzo
@@ -106,6 +96,20 @@
             <td class="bad">
                 Bardzo
                 <p>Wymaga zmian w wielu klasach - w jednym teście, ale w wielu mockach.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Nakład testów przy <b>dodawaniu</b> funkcjonalności</td>
+            <td class="good">
+                Mało
+                <p>Wystarczy stworzyć nową klasę i jej unit test (zasada Open/Close).</p>
+            </td>
+            <td class="bad">
+                Średnio
+                <ul>
+                    <li>Wymagają dopisania dużego testu z dużą ilością mocków.</li>
+                    <li>Prawdopodobnie copy-paste z innego testu.</li>
+                </ul>
             </td>
         </tr>
     </table>
